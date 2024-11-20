@@ -74,6 +74,97 @@ TRADE_QUANTITY=100  # Amount of tokens per trade
 ARBITRAGE_THRESHOLD=1.0  # Minimum price difference percentage
 ```
 
+#### Getting Your Keys Using Demeter.run (Optional)
+1. Visit [Demeter.run](https://demeter.run) and create an account
+2. Create a new project:
+   - Click "New Project"
+   - Select "Hosting"
+   - Enable "Activate to enter repository URL" and enter ```https://github.com/Flux-Point-Studios/Cardano-DEX-CEX-Arbitrage-Bot.git```
+
+3. Open Terminal in Demeter.run and enter these commands:
+
+```bash
+# Create a working directory
+mkdir wallet-keys
+cd wallet-keys
+
+# Generate payment key pair
+cardano-cli address key-gen \
+--normal-key \
+--verification-key-file payment.vkey \
+--signing-key-file payment.skey
+
+# Generate stake key pair
+cardano-cli stake-address key-gen \
+--verification-key-file stake.vkey \
+--signing-key-file stake.skey
+
+# Build your wallet address
+cardano-cli address build \
+--payment-verification-key-file payment.vkey \
+--stake-verification-key-file stake.vkey \
+--mainnet \
+--out-file payment.addr
+
+# Display your address
+cat payment.addr
+```
+
+4. Export Keys in Required Format:
+```bash
+# Convert payment signing key to JSON
+cardano-cli key convert-cardano-address-key \
+--shelley-payment-key \
+--signing-key-file payment.skey \
+--out-file payment.json
+
+# Convert stake signing key to JSON
+cardano-cli key convert-cardano-address-key \
+--shelley-stake-key \
+--signing-key-file stake.skey \
+--out-file stake.json
+
+# Generate verification key JSONs
+cardano-cli key verification-key \
+--signing-key-file payment.json \
+--verification-key-file payment-verification.json
+
+cardano-cli key verification-key \
+--signing-key-file stake.json \
+--verification-key-file stake-verification.json
+```
+
+5. Copy the contents of these files for your .env:
+   - `payment.json` → SIGNING_KEY_JSON
+   - `payment-verification.json` → VERIFICATION_KEY_JSON
+   - `stake.json` → STAKE_SIGNING_KEY_JSON
+   - `stake-verification.json` → STAKE_VERIFICATION_KEY_JSON
+   - `payment.addr` → CARDANO_ADDRESS
+
+6. Fund Your New Wallet:
+   - Copy the address from payment.addr
+   - Send ADA and tokens to this address to fund
+   - Wait for confirmations
+
+#### Important Security Notes
+- **NEVER** share your signing keys or store them in unsecured locations
+- Keep multiple secure backups of your keys
+- The address generated must be funded before it can be used
+- Verify all transactions on a small scale before running the bot with larger amounts
+
+#### Verifying Your Setup
+After setting up your keys and funding your address, you can verify everything is working:
+
+```bash
+# Check your address balance
+cardano-cli query utxo \
+--address $(cat payment.addr) \
+--mainnet
+```
+
+This should show your current balance and any tokens at the address.
+
+
 ## Usage
 
 1. Start the bot:
