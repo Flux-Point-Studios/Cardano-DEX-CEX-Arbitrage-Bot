@@ -27,8 +27,7 @@ This bot helps maintain price consistency for tokens listed on both Cardano DEXs
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/cardano-arbitrage-bot.git
-cd cardano-arbitrage-bot
+git clone https://github.com/Flux-Point-Studios/Cardano-DEX-CEX-Arbitrage-Bot.git
 ```
 
 2. Create and activate a virtual environment:
