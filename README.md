@@ -267,6 +267,7 @@ Here are some resources to help you get started:
 - DexHunter API for DEX integrations
 - Gleec Exchange for CEX trading capabilities
 - Blockfrost for Cardano network interaction
+- Demeter.run for their turkey Workspace solution
 - The Cardano community for ongoing support 🙏
 
 ---
